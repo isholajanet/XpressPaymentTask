@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/xpresspayments
+    username: postgres
+    password: janet1234
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+payment:
+    api:
+      url: https://billerstest.xpresspayments.com:9603/api/v1/airtime/fulfil
+    private:
+      key: Mefjk9DVzhdsbfl0CjIvXr4mT4S32T8T_CVASPRV
+    public:
+      key: XpkRtqO4RNbKIsJiCF8xSxW4LHmXe270_CVASPUB
+
