@@ -19,7 +19,7 @@ import java.security.NoSuchAlgorithmException;
 
 @Service
 @Slf4j
-public class PaymentServiceImpl {
+public class PaymentServiceImpl implements PaymentService {
 
     private final String url;
 
@@ -29,6 +29,7 @@ public class PaymentServiceImpl {
     private final String publicKey;
 
     private final RestTemplate restTemplate;
+
 
     public PaymentServiceImpl(@Value("${payment.api.url}") String url,
                               @Value("${payment.private.key}") String privateKey,
@@ -50,7 +51,7 @@ public class PaymentServiceImpl {
 
             String paymentHash = calculateHMAC512(requestJson, privateKey);
 
-            return makePaymentRequest(request, paymentHash);
+            return buyAirtime(request, paymentHash);
 
 
         } catch (Exception e) {
@@ -58,7 +59,7 @@ public class PaymentServiceImpl {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    public static String calculateHMAC512(String data, String key) {
+    private static String calculateHMAC512(String data, String key) {
         String HMAC_SHA512 = "HmacSHA512";
         SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(), HMAC_SHA512);
         Mac mac = null;
@@ -75,7 +76,7 @@ public class PaymentServiceImpl {
 
     }
 
-    public ResponseEntity<PaymentResponse> makePaymentRequest(PaymentRequest requestBody, String paymentHash ){
+    public ResponseEntity<PaymentResponse> buyAirtime(PaymentRequest requestBody, String paymentHash ){
 
         try{
 
@@ -105,10 +106,6 @@ public class PaymentServiceImpl {
         } catch (HttpClientErrorException | HttpServerErrorException e) {
             log.info("HTTP error. Response: " + e.getResponseBodyAsString());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-
         }
 
 

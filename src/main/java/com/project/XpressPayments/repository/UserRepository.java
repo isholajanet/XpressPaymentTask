@@ -1,4 +1,4 @@
-package com.project.XpressPayments.Repository;
+package com.project.XpressPayments.repository;
 
 import com.project.XpressPayments.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

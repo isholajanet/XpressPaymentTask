@@ -1,6 +1,6 @@
 package com.project.XpressPayments.auth;
 
-import com.project.XpressPayments.Repository.UserRepository;
+import com.project.XpressPayments.repository.UserRepository;
 import com.project.XpressPayments.config.JwtService;
 import com.project.XpressPayments.model.Role;
 import com.project.XpressPayments.model.User;
