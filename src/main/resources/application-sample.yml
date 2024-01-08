@@ -1,0 +1,7 @@
+payment:
+  api:
+    url: https://billerstest.xpresspayments.com:9603/api/v1/airtime/fulfil
+  private:
+    key: YOUR_PRIVATE_KEY
+  public:
+    key: YOUR_PUBLIC_KEY

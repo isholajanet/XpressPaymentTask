@@ -59,7 +59,7 @@ public class PaymentServiceImpl implements PaymentService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    private static String calculateHMAC512(String data, String key) {
+    public static String calculateHMAC512(String data, String key) {
         String HMAC_SHA512 = "HmacSHA512";
         SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(), HMAC_SHA512);
         Mac mac = null;
