@@ -30,6 +30,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final RestTemplate restTemplate;
 
+    private static final String PHONE_NUMBER_REGEX = "^[0-9]{10,15}$";
 
     public PaymentServiceImpl(@Value("${payment.api.url}") String url,
                               @Value("${payment.private.key}") String privateKey,
@@ -44,10 +45,17 @@ public class PaymentServiceImpl implements PaymentService {
 
     public ResponseEntity<PaymentResponse> makePayment(PaymentRequest request){
 
+
         try{
+
+            if (!isValidPhoneNumber(request.getDetails().getPhoneNumber())) {
+                log.error("Invalid phone number: " + request.getDetails().getPhoneNumber());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
 
             ObjectMapper objectMapper = new ObjectMapper();
             String requestJson = objectMapper.writeValueAsString(request);
+
 
             String paymentHash = calculateHMAC512(requestJson, privateKey);
 
@@ -109,6 +117,10 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
 
+    }
+
+    private static boolean isValidPhoneNumber(String phoneNumber) {
+        return phoneNumber.matches(PHONE_NUMBER_REGEX);
     }
 
 }
